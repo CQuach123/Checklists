@@ -40,7 +40,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="pMd-rG-S4e" kind="show" trigger="accessoryAction" id="ZnO-fT-Bkm"/>
+                                    <segue destination="pMd-rG-S4e" kind="show" identifier="EditItem" trigger="accessoryAction" id="ZnO-fT-Bkm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -108,12 +108,12 @@
                     <navigationItem key="navigationItem" title="Add Item" id="HLt-1J-Zr2">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Qgw-CI-LVg">
                             <connections>
-                                <action selector="cancel" destination="pMd-rG-S4e" id="ch6-EH-UKa"/>
+                                <action selector="cancel" destination="pMd-rG-S4e" id="ghw-yV-xXR"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="C6r-Pt-TYa">
                             <connections>
-                                <action selector="done" destination="pMd-rG-S4e" id="PMj-wa-hMb"/>
+                                <action selector="done" destination="pMd-rG-S4e" id="VMK-bM-mGW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
