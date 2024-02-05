@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 protocol ItemDetailViewControllerDelegate: AnyObject {
     func itemDetailViewControllerDidCancel(
@@ -26,7 +27,8 @@ UITextFieldDelegate {
     
     var itemToEdit: ChecklistItem?
     
-    
+    @IBOutlet weak var shouldRemindSwitch: UISwitch!
+    @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
     
@@ -43,6 +45,8 @@ UITextFieldDelegate {
             title = "Edit Item"
             textField.text = item.text
             doneBarButton.isEnabled = true
+            shouldRemindSwitch.isOn = item.shouldRemind
+            datePicker.date = item.dueDate
             
         }
     }
@@ -54,15 +58,30 @@ UITextFieldDelegate {
     }
     
     @IBAction func done() {
-        if let item = itemToEdit {
-            item.text = textField.text!
-            delegate?.itemDetailViewController(
-                self,
-                didFinishEditing: item)
-        } else {
-            let item = ChecklistItem()
-            item.text = textField.text!
-            delegate?.itemDetailViewController(self, didFinishAdding: item)
+       if let item = itemToEdit {
+         item.text = textField.text!
+         item.shouldRemind = shouldRemindSwitch.isOn
+         item.dueDate = datePicker.date
+         item.scheduleNotification()
+         delegate?.itemDetailViewController(self, didFinishEditing: item)
+       } else {
+         let item = ChecklistItem()
+         item.text = textField.text!
+         item.shouldRemind = shouldRemindSwitch.isOn
+         item.dueDate = datePicker.date
+         item.scheduleNotification()
+         delegate?.itemDetailViewController(self, didFinishAdding: item)
+       }
+     }
+    
+    @IBAction func shouldRemindToggled(_ switchControl: UISwitch) {
+        textField.resignFirstResponder()
+        
+        if switchControl.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {_, _
+                in
+            }
         }
     }
 
@@ -104,5 +123,7 @@ UITextFieldDelegate {
         doneBarButton.isEnabled = false
         return true
     }
+    
+    
     
 }
